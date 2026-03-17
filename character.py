@@ -8,4 +8,4 @@ class Character:
         self.health -= amount
 
     def is_alive(self):
-        return self.health > 0
+        return self.health > 0 

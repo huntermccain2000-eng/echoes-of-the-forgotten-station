@@ -19,7 +19,7 @@ class AIController:
     def rule_exploration(self, player):
 
         if len(player.rooms_visited) < 3:
-            print("TIP: Exploring more areas may help uncover clues.")
+            print("TIP:You can find items with the search function.")
 
     def update(self, player, enemy):
 

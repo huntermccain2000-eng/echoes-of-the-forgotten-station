@@ -18,10 +18,16 @@ class Player(Character):
     def take_item(self, item):
         self.inventory.append(item)
 
+        
+
     def use_item(self, item, game):
 
         if item not in self.inventory:
             print("You do not have that item.")
+            return
+        # block passive items
+        if item in game.passive_items:
+            print(f"The {item} is used automatically when needed.")
             return
 
         if item == "medkit":
