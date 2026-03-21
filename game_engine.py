@@ -287,10 +287,10 @@ class GameEngine:
 
                 self.security_search_count += 1
 
-                if self.security_search_count >= 1:
+                if self.security_search_count == 1:
                     print("Locked weapon lockers line the walls. One locker is damaged but it can not be opened by hand.")
 
-                elif self.security_search_count >= 2:
+                elif self.security_search_count == 2:
 
                     if "prybar" in self.player.inventory:
                         print("You pry open a damaged locker and discover an ACCESS CARD!")
@@ -305,10 +305,10 @@ class GameEngine:
             if room.name == "Cargo Hold":
                 self.cargo_search_count += 1
 
-                if self.cargo_search_count >= 1:
+                if self.cargo_search_count == 1:
                     print("The crates are marked with various warning labels")
 
-                elif self.cargo_search_count >= 2:
+                elif self.cargo_search_count == 2:
                     print("Upon closer inspection... You find nothing usefull to your journey")
 
                 elif self.cargo_search_count >= 3:
@@ -449,7 +449,7 @@ class GameEngine:
             print("Enemy defeated!")
             self.ai.combat_wins += 1
             # If the AI Guardian was destroyed, start station destruction
-            if enemy.name == "Station AI Guardian" and not self.ai_core_disabled():
+            if enemy.name == "Station AI Guardian" and not self.ai_core_disabled:
 
                 print("\nWARNING: AI CORE DESTROYED")
                 print("STATION REACTOR UNSTABLE")
