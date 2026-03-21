@@ -28,7 +28,7 @@ class GameEngine:
         self.locker_open = False    
         self.access_slot_found = False
         self.secret_exit_found = False 
-        self.passive_items = ["prybar"]
+        self.passive_items = ["prybar", "map"]
 
     def start_game(self):
 
