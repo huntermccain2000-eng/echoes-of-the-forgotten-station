@@ -291,13 +291,16 @@ class GameEngine:
                     print("Locked weapon lockers line the walls. One locker is damaged but it can not be opened by hand.")
 
                 elif self.security_search_count == 2:
-
-                    if "prybar" in self.player.inventory:
+                    if "prybar" not in self.player.inventory:
+                        print("You cannot open the damaged locker by hand.")
+                        self.security_search_count -= 1  # stays on step 2
+                    
+                    elif "prybar" in self.player.inventory:
                         print("You pry open a damaged locker and discover an ACCESS CARD!")
-                        self.locker_open = True 
-
-                    if "access card" not in room.items:
-                        room.items.append("access card")
+                        self.locker_open = True
+                        
+                        if "access card" not in room.items:
+                            room.items.append("access card") 
 
                 elif self.security_search_count >= 3 and self.locker_open == True:
                     print("The rest of the lockers are sealed too tight. There is nothing left for you.")
