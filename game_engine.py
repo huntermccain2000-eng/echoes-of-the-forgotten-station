@@ -534,15 +534,35 @@ class GameEngine:
 
     def save_game(self):
 
-        data = {
-            "name":self.player.name,
-            "health":self.player.health,
-            "inventory":self.player.inventory,
-            "room":self.player.current_room.name
-        }
+        enemy_states = {}
 
-        with open("savegame.json","w") as f:
-            json.dump(data,f)
+        for room_name, room in self.rooms.items():
+            if room.enemy:
+                enemy_states[room_name] = {
+                    "health": room.enemy.health
+                }
+
+        data = {
+            "name": self.player.name,
+            "health": self.player.health,
+            "inventory": self.player.inventory,
+            "room": self.player.current_room.name,
+            "enemy_states": enemy_states,
+            "locker_open": self.locker_open,
+            "station_destruction": self.station_destruction,
+            "destruction_turns": self.destruction_turns,
+            "bridge_search_count": self.bridge_search_count,
+            "engineering_search_count": self.engineering_search_count,
+            "security_search_count": self.security_search_count,
+            "cryo_search_count": self.cryo_search_count,
+            "secret_exit_found": self.secret_exit_found,
+            "access_slot_found": self.access_slot_found,
+            "access_slot_found": self.access_slot_found,
+            "secret_exit_found": self.secret_exit_found
+               }
+
+        with open("savegame.json", "w") as f:
+            json.dump(data, f)
 
         print("Game saved.")
 
@@ -551,14 +571,37 @@ class GameEngine:
         try:
             with open("savegame.json") as f:
                 data = json.load(f)
-
+                
         except:
             print("Save file not found.")
             return
 
+        # restore player
         self.player.name = data["name"]
         self.player.health = data["health"]
         self.player.inventory = data["inventory"]
         self.player.current_room = self.rooms[data["room"]]
+
+        # restore enemies
+        enemy_states = data.get("enemy_states", {})
+
+        for room_name, state in enemy_states.items():
+            room = self.rooms[room_name]
+
+            if room.enemy:
+                room.enemy.health = state["health"]
+
+        # restore world flags
+        self.bridge_search_count = data.get("bridge_search_count", 0)
+        self.med_search_count = data.get("med_search_count", 0)
+        self.engineering_search_count = data.get("engineering_search_count", 0)
+        self.security_search_count = data.get("security_search_count", 0)
+        self.cargo_search_count = data.get("cargo_search_count", 0)
+        self.cryo_search_count = data.get("cryo_search_count", 0)
+        self.access_slot_found = data.get("access_slot_found", False)
+        self.secret_exit_found = data.get("secret_exit_found", False)
+        self.locker_open = data.get("locker_open", False)
+        self.station_destruction = data.get("station_destruction", False)
+        self.destruction_turns = data.get("destruction_turns", 0)
 
         print("Game loaded.")
