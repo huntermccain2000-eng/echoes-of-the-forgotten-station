@@ -141,6 +141,7 @@ class GameEngine:
         print("save")
         print("load")
         print("help")
+        print("history")
         print("quit")
     def show_help(self):
 
@@ -161,6 +162,7 @@ class GameEngine:
         print("load        - load a saved game")
 
         print("help        - show this command list")
+        print("history     - view past game runs")
         print("quit        - exit the game")
     def run_back(self):
 
@@ -369,6 +371,10 @@ class GameEngine:
 
         elif action == "quit":
             self.running = False
+        
+        elif action == "history":
+            from database import show_game_history
+            show_game_history()
 
         else:
             print("Unknown command.")
@@ -447,6 +453,13 @@ class GameEngine:
 
         if self.player.health <= 0:
             print("You have died.")
+    
+            save_game_history(
+                self.player.name,
+                "Death",
+            len(self.player.rooms_visited)
+            )   
+
             self.running = False
         else:
             print("Enemy defeated!")
@@ -476,7 +489,11 @@ class GameEngine:
 
             print("\nThe station explodes before you escape.")
             print("ENDING: Total Destruction")
-
+            save_game_history(
+            self.player.name,
+            "Total Destruction",
+            len(self.player.rooms_visited)
+            )
             self.running = False
 
     def check_room_events(self):
@@ -571,7 +588,7 @@ class GameEngine:
         try:
             with open("savegame.json") as f:
                 data = json.load(f)
-                
+
         except:
             print("Save file not found.")
             return
