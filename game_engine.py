@@ -236,7 +236,7 @@ class GameEngine:
                 elif self.bridge_search_count == 3:
                     print("A old captains hat lies in the command chair, for some reason it looks like the hat of a pirate from the old terran stories.")
                     print("You leave the hat.")
-                elif self.bridge_search_count >= 4:
+                elif self.bridge_search_count == 4:
                     print("You notice scratches near a console panel...It could be moved, if you had the right tool.")
 
                 elif self.bridge_search_count >= 5:
@@ -252,7 +252,7 @@ class GameEngine:
 
                         self.secret_exit_found = True
                     if "prybar" not in self.player.inventory: 
-                        print("You cannot open the hatch by hand.")
+                        print(("You notice scratches near a console panel...It could be moved, if you had the right tool."))
         # MEDICAL ROOM SEARCHING
             if room.name== "Medical Wing":
                     self.med_search_count +=1
