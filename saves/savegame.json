@@ -1,0 +1,30 @@
+{
+    "name": "hunter",
+    "health": 90,
+    "inventory": [
+        "prybar"
+    ],
+    "room": "Command Bridge",
+    "enemy_states": {
+        "Engineering Bay": {
+            "health": -5
+        },
+        "Security Office": {
+            "health": 50
+        },
+        "AI Core Room": {
+            "health": 80
+        }
+    },
+    "locker_open": false,
+    "station_destruction": false,
+    "destruction_turns": 0,
+    "bridge_search_count": 5,
+    "med_search_count": 0,
+    "engineering_search_count": 3,
+    "security_search_count": 0,
+    "cargo_search_count": 0,
+    "cryo_search_count": 0,
+    "secret_exit_found": true,
+    "access_slot_found": true
+}

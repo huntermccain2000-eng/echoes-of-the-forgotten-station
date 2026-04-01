@@ -1,5 +1,6 @@
 import json
 import random
+import os
 
 from player import Player
 from room import Room
@@ -549,46 +550,62 @@ class GameEngine:
 
             self.running = False
 
+
+    # ---------------- SAVE GAME ---------------- #
     def save_game(self):
+
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        save_dir = os.path.join(base_dir, "saves")
+        
+
+        # ✅ Create folder if it doesn't exist
+        os.makedirs(save_dir, exist_ok=True)
+
+        file_path = os.path.join(save_dir, "savegame.json")
 
         enemy_states = {}
 
         for room_name, room in self.rooms.items():
             if room.enemy:
                 enemy_states[room_name] = {
-                    "health": room.enemy.health
+                   "health": room.enemy.health
                 }
 
         data = {
-            "name": self.player.name,
-            "health": self.player.health,
-            "inventory": self.player.inventory,
-            "room": self.player.current_room.name,
-            "enemy_states": enemy_states,
-            "locker_open": self.locker_open,
-            "station_destruction": self.station_destruction,
-            "destruction_turns": self.destruction_turns,
-            "bridge_search_count": self.bridge_search_count,
-            "engineering_search_count": self.engineering_search_count,
-            "security_search_count": self.security_search_count,
-            "cryo_search_count": self.cryo_search_count,
-            "secret_exit_found": self.secret_exit_found,
-            "access_slot_found": self.access_slot_found,
-            "access_slot_found": self.access_slot_found,
-            "secret_exit_found": self.secret_exit_found
-               }
+           "name": self.player.name,
+          "health": self.player.health,
+           "inventory": self.player.inventory,
+          "room": self.player.current_room.name,
+          "enemy_states": enemy_states,
+          "locker_open": self.locker_open,
+          "station_destruction": self.station_destruction,
+          "destruction_turns": self.destruction_turns,
+          "bridge_search_count": self.bridge_search_count,
+          "med_search_count": self.med_search_count,
+          "engineering_search_count": self.engineering_search_count,
+          "security_search_count": self.security_search_count,
+          "cargo_search_count": self.cargo_search_count,
+          "cryo_search_count": self.cryo_search_count,
+        "secret_exit_found": self.secret_exit_found,
+           "access_slot_found": self.access_slot_found
+       }
 
-        with open("savegame.json", "w") as f:
-            json.dump(data, f)
+        with open(file_path, "w") as f:
+            json.dump(data, f, indent=4)
 
-        print("Game saved.")
+        print("Game saved to:", file_path)
 
+
+        # ---------------- LOAD GAME ---------------- #
     def load_game(self):
 
-        try:
-            with open("savegame.json") as f:
-                data = json.load(f)
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        save_dir = os.path.join(base_dir, "saves")
+        file_path = os.path.join(save_dir, "savegame.json")
 
+        try:
+             with open(file_path) as f:
+                data = json.load(f)
         except:
             print("Save file not found.")
             return
@@ -608,7 +625,7 @@ class GameEngine:
             if room.enemy:
                 room.enemy.health = state["health"]
 
-        # restore world flags
+        # restore world state
         self.bridge_search_count = data.get("bridge_search_count", 0)
         self.med_search_count = data.get("med_search_count", 0)
         self.engineering_search_count = data.get("engineering_search_count", 0)
@@ -621,4 +638,4 @@ class GameEngine:
         self.station_destruction = data.get("station_destruction", False)
         self.destruction_turns = data.get("destruction_turns", 0)
 
-        print("Game loaded.")
+        print("Game loaded from:", file_path)

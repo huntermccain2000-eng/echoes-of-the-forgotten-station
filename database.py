@@ -1,9 +1,17 @@
 import sqlite3
+import os
 
+
+def get_db_path():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_dir, "game_history.db")
+
+
+# ---------------- SAVE HISTORY ---------------- #
 def save_game_history(player_name, ending, rooms_explored):
 
     try:
-        conn = sqlite3.connect("game_history.db")
+        conn = sqlite3.connect(get_db_path())
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -29,12 +37,14 @@ def save_game_history(player_name, ending, rooms_explored):
     finally:
         conn.close()
 
+
+# ---------------- SHOW HISTORY ---------------- #
 def show_game_history():
 
-    conn = sqlite3.connect("game_history.db")
+    conn = sqlite3.connect(get_db_path())
     cursor = conn.cursor()
 
-    # ✅ ENSURE TABLE EXISTS
+    # ensure table exists
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS GameHistory(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
