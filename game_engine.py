@@ -558,7 +558,7 @@ class GameEngine:
         save_dir = os.path.join(base_dir, "saves")
         
 
-        # ✅ Create folder if it doesn't exist
+        # Create folder if it doesn't exist
         os.makedirs(save_dir, exist_ok=True)
 
         file_path = os.path.join(save_dir, "savegame.json")
