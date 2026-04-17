@@ -11,6 +11,7 @@ Features
 - SQLite database tracking game history
 - Multiple endings
 - Search the Rooms to find your active and passive items
+- This branch Includes an extra gui based menu
 
 libraries used 
  - SQLite - the sqlite code is taking directly from online 
