@@ -405,6 +405,7 @@ class GameEngine:
             self.player.take_item(item)
             room.items.remove(item)
             print("Picked up:",item)
+            self.show_available_commands()
 
         else:
             print("Item not found.")
